@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="mainVbox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="745.0" style="-fx-background-color: ccee;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.xoo.GameWindowController">
+   <children>
+      <Separator prefHeight="33.0" prefWidth="745.0" />
+      <VBox prefHeight="126.0" prefWidth="745.0">
+         <children>
+            <HBox prefHeight="25.0" prefWidth="600.0">
+               <children>
+                  <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="105.0" />
+                  <Label prefHeight="20.0" prefWidth="135.0" text="player:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="mynameLLabel" prefHeight="20.0" prefWidth="231.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="129.0" />
+                  <Label prefHeight="20.0" prefWidth="135.0" text="playing:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="opponentNameLabel" prefHeight="20.0" prefWidth="233.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Circle fx:id="moveIndicator" fill="#fff600" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="35.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</VBox>

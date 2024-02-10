@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: ccee;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.xoo.MainGameController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="24.0" prefWidth="132.0" text="X/O Game">
+         <font>
+            <Font name="Chandas" size="19.0" />
+         </font></Label>
+      <HBox alignment="CENTER" prefHeight="73.0" prefWidth="600.0">
+         <children>
+            <Separator orientation="VERTICAL" prefHeight="73.0" prefWidth="61.0" />
+            <ComboBox fx:id="gridSizeBox" prefHeight="38.0" prefWidth="150.0" promptText="Grid Size" />
+            <Separator orientation="VERTICAL" prefHeight="73.0" prefWidth="67.0" />
+         </children>
+      </HBox>
+      <Separator prefHeight="52.0" prefWidth="600.0" />
+      <HBox alignment="CENTER" prefHeight="38.0" prefWidth="435.0">
+         <children>
+            <Separator orientation="VERTICAL" prefHeight="38.0" prefWidth="42.0" />
+            <TextField fx:id="playerNameField" alignment="CENTER" prefHeight="24.0" prefWidth="171.0" promptText="player name">
+               <font>
+                  <Font name="Khmer OS System" size="14.0" />
+               </font>
+            </TextField>
+            <Separator orientation="VERTICAL" prefHeight="38.0" prefWidth="43.0" />
+         </children>
+      </HBox>
+      <Separator maxHeight="1.7976931348623157E308" prefHeight="106.0" prefWidth="600.0" visible="false" VBox.vgrow="ALWAYS" />
+      <Button fx:id="startBtn" alignment="CENTER" mnemonicParsing="false" onAction="#startBtnClicked" text="Start game" />
+      <Separator layoutX="10.0" layoutY="206.0" maxHeight="1.7976931348623157E308" prefHeight="49.0" prefWidth="600.0" visible="false" />
+   </children>
+</VBox>
