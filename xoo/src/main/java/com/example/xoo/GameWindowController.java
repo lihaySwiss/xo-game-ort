@@ -1,8 +1,11 @@
 package com.example.xoo;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -173,17 +176,27 @@ public class GameWindowController {
         new Thread(client).start();
     }
 
-    public void handleTermination(Move terminateMove) {
+    public void handleTermination(Move terminateMove) throws IOException{
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
         if(terminateMove.win())
             alert.setContentText("You won");
-
         else
             alert.setContentText("You lost");
 
         Object res = alert.showAndWait();
         Stage stage = (Stage) pane.getScene().getWindow();
-        stage.close();
+
+        stage.setOnCloseRequest((event)->{
+            try {
+                this.client.closeConnection();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        //start new main window
+        FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("mainWindow.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
     }
 }

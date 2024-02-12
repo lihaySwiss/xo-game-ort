@@ -33,11 +33,7 @@ public class MainGameController {
 
         Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 
-        //disable another start
-        startBtn.setDisable(true);
-
         //start new window of game
-        Stage gameStage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("gameWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
@@ -53,4 +49,6 @@ public class MainGameController {
         gridSizeBox.getItems().addAll(IntStream.rangeClosed(3,15).boxed().collect(Collectors.toList()));
         gridSizeBox.getSelectionModel().select(0);
     }
+
+
 }

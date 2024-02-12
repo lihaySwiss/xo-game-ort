@@ -145,7 +145,13 @@ public class Client implements Runnable{
     }
 
     private void terminateGame(Move terminateMove) throws IOException {
-        Platform.runLater(()->controller.handleTermination(terminateMove));
+        Platform.runLater(()-> {
+            try {
+                controller.handleTermination(terminateMove);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         closeConnection();
     }
 
