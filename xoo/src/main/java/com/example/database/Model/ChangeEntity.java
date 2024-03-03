@@ -1,7 +1,7 @@
-package com.example.database;
+package com.example.database.Model;
 
-import com.example.database.BaseEntity;
-import com.example.database.SQLCreator;
+import com.example.database.Model.BaseEntity;
+import com.example.database.viewModel.SQLCreator;
 
 public class ChangeEntity {
     private SQLCreator sqlCreator;

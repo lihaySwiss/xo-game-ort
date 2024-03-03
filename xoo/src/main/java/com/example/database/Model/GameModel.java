@@ -1,4 +1,4 @@
-package com.example.database;
+package com.example.database.Model;
 
 import java.sql.Timestamp;
 

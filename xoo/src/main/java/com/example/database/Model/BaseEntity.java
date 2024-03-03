@@ -1,6 +1,4 @@
-package com.example.database;
-
-import com.example.database.PlayerModel;
+package com.example.database.Model;
 
 import java.sql.Timestamp;
 

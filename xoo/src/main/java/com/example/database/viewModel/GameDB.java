@@ -1,12 +1,13 @@
-package com.example.database;
+package com.example.database.viewModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.example.database.BaseEntity;
-import com.example.database.GameModel;
+import com.example.database.Model.BaseEntity;
+import com.example.database.Model.ChangeEntity;
 import com.example.database.Model.GameList;
+import com.example.database.Model.GameModel;
 
 public class GameDB extends BaseDB {
 
@@ -85,13 +86,14 @@ public class GameDB extends BaseDB {
                     game.getResult()
                     + "', '" + game.getStartTime() + "', '" + game.getEndTime() + "')";
         }
+        System.out.println("THIS IS THE SQL REQUEST:\n" + sqlStr);
         return sqlStr;
     }
 
     @Override
     public String createUpdateSql(BaseEntity entity) {
         String sqlStr = "";
-        if (entity instanceof GameModel) {
+      //  if (entity instanceof GameModel) {
             GameModel game = (GameModel) entity;
             sqlStr = "UPDATE games SET player1 = '" +
                     game.getPlayer1().getPlayerName() + "', player2 = '" +
@@ -99,7 +101,7 @@ public class GameDB extends BaseDB {
                     ((game.getWinner() != null) ? game.getWinner().getPlayerName() : "NO WINNER") + "', boardSize = " +
                     game.getBoardSize() + ", result = '" + game.getResult().toString() + "',startTime = '" +
                     game.getStartTime() + "', endTime = '" + game.getEndTime() + "' WHERE gameId = " + game.getId();
-        }
+        //}
         return sqlStr;
     }
 
@@ -115,8 +117,9 @@ public class GameDB extends BaseDB {
 
     @Override
     public void insert(BaseEntity entity) {
-        if (entity instanceof GameModel) {
+        if (entity instanceof com.example.database.Model.GameModel) {
             inserted.add(new ChangeEntity(entity, this::createInsertSql));
+
         }
     }
 

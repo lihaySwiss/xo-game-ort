@@ -43,6 +43,8 @@ public class GameWindowController {
 
     Client client;
 
+    MainGameController mainWindow;
+
     //put the waiting for game prompt
     public void initialize(){
         waitingLabel.setFont(new Font(30));
@@ -134,19 +136,21 @@ public class GameWindowController {
         button.setUserData(null);
     }
 
-    private Button locateCell(int x, int y){
+    private Button locateCell(int x, int y) throws RuntimeException {
         var ch = pane.getChildren();
 
-        for(Node node : ch){
+        for (Node node : ch) {
             Pair<Integer, Integer> pair = (Pair<Integer, Integer>) node.getUserData();
-            if(pair == null)
+
+            if (pair == null)
                 continue;
 
-            if(pair.getKey() == x && pair.getValue() == y)
+            if (pair.getKey() == x && pair.getValue() == y)
                 return (Button) node;
         }
-
-        throw new RuntimeException("couldn't find node");
+        //throw new RuntimeException("couldn't find node");
+        //continue;
+        return null;
     }
 
     public void handleOpponentMove(Move move) {
@@ -155,10 +159,11 @@ public class GameWindowController {
 
         //update GUI
         Button target = locateCell(move.x(), move.y());
-        target.setText(String.valueOf((char)game.getGameDetails().opponentMark()));
-        target.setUserData(null);
-        enableButtons();
-
+        if(target != null) {
+            target.setText(String.valueOf((char) game.getGameDetails().opponentMark()));
+            target.setUserData(null);
+            enableButtons();
+        }
         moveIndicator.setFill(Color.GREEN);
     }
 
@@ -179,24 +184,27 @@ public class GameWindowController {
     public void handleTermination(Move terminateMove) throws IOException{
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-        if(terminateMove.win())
+        if(terminateMove.win()) {
             alert.setContentText("You won");
-        else
+        } else if(!terminateMove.win())
             alert.setContentText("You lost");
+        else
+            alert.setContentText("Draw");
 
-        Object res = alert.showAndWait();
+        alert.showAndWait();
+
+
         Stage stage = (Stage) pane.getScene().getWindow();
 
-        stage.setOnCloseRequest((event)->{
-            try {
-                this.client.closeConnection();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        //Platform.exit();
         //start new main window
         FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("mainWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+
+        mainWindow = (MainGameController) fxmlLoader.getController();
+        mainWindow.initialize();
+
         stage.setScene(scene);
+
     }
 }

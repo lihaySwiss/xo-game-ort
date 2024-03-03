@@ -1,4 +1,4 @@
-package com.example.database;
+package com.example.database.viewModel;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,13 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.example.database.BaseEntity;
+import com.example.database.Model.BaseEntity;
+import com.example.database.Model.ChangeEntity;
 
 public abstract class BaseDB extends BaseEntity {
-    private static final String URL_PATH = "jdbc:mysql://localhost/Tic_tac_toe_games";
+    private static final String URL_PATH = "jdbc:mysql://localhost:3306/tic_tac_toe_games";
     private static final String DRIVER_CLASS = "com.mysql.cj.jdbc.Driver";
     private static final String username = "root";
-    private static final String password = "tt112233";
+    private static final String password = "password";
 
     private Connection connection;
     private Statement stmt;

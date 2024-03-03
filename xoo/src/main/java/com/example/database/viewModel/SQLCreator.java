@@ -1,7 +1,7 @@
 
-package com.example.database;
+package com.example.database.viewModel;
 
-import com.example.database.BaseEntity;
+import com.example.database.Model.BaseEntity;
 
 /**
  * SQLCreator

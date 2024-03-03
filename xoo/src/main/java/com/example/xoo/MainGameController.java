@@ -23,6 +23,9 @@ public class MainGameController {
     private Button startBtn;
 
     @FXML
+    private Button scoreBtn;
+
+    @FXML
     private TextField playerNameField;
     Client client;
 

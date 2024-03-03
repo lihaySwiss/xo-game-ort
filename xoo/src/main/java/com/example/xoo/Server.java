@@ -5,10 +5,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import com.example.database.Model.*;
+import com.example.database.viewModel.*;
+import com.example.database.viewModel.BaseDB;
 
 public class Server {
 
@@ -17,6 +21,8 @@ public class Server {
 
     private final ExecutorService pool = Executors.newCachedThreadPool();
     private Map<Integer, ServerRequest> requests = new HashMap<>();
+
+    private HandlerSQL handler;
 
     public Server() throws IOException {
         socket = new ServerSocket(PORT);
@@ -49,6 +55,7 @@ public class Server {
         System.out.println("server: received game request from " + connection.toString());
         ServerRequest request = new ServerRequest(req.getSize(), req.getName(), connection);
 
+
         return request;
     }
 
@@ -65,6 +72,7 @@ public class Server {
     private void initiateGame(ServerRequest req1, ServerRequest req2) throws IOException {
         System.out.println("server: initiating game");
         pool.submit(new Session(req1, req2));
+
     }
 
     public class Session implements Runnable {
@@ -77,12 +85,23 @@ public class Server {
 
         private GameDetails gd1;
 
+        private PlayerModel player;
+        private PlayerModel opponent;
+
         public Session(ServerRequest req1, ServerRequest req2) {
             this.req1 = req1;
             this.req2 = req2;
 
             gd1 = new GameDetails(req1.getSize(), req1.getName(),
                     req2.getName(), (byte)'x', (byte)'o', true);
+
+
+
+            this.player = new PlayerModel(gd1.name());
+            this.opponent = new PlayerModel(gd1.opponentName());
+
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            handler = new HandlerSQL(player.getPlayerName(),opponent.getPlayerName(),  req1.getSize(), timestamp);
         }
 
         @Override
@@ -104,11 +123,13 @@ public class Server {
                         os1.writeObject(acc);
 
                     game.mark(move.x(), move.y());
-                    if(game.checkWin(move.x(), move.y()))
-                        terminateGame(move, os1, os2);
+
+                    //write winning player to database
+                    if(game.checkWin(move.x(), move.y())) {
+                        terminateGame(move, os1, os2, false);
+                    }
 
                     os2.writeObject(move);
-
                     move = (Move) is2.readObject();
 
                     if(checkMove(move))
@@ -116,8 +137,14 @@ public class Server {
 
                     game.opponentMark(move.x(), move.y());
 
+                    //write winning player to database
                     if(game.checkOpponentWin(move.x(), move.y())){
-                        terminateGame(move, os2, os1);
+                        terminateGame(move, os2, os1, false);
+                    }
+
+                    if(game.checkDraw())
+                    {
+                        terminateGame(move, os1, os2, true);
                     }
 
                     os1.writeObject(move);
@@ -156,21 +183,29 @@ public class Server {
         }
 
         private boolean checkMove(Move move){
-            //TO DO
             return true;
         }
 
-        private void terminateGame(Move move, ObjectOutputStream osWin, ObjectOutputStream osLose) throws IOException {
-            osWin.writeObject(new Move(move.x(), move.y(), true, true));
-            osLose.writeObject(new Move(move.x(), move.y(), true, false));
-        }
+        private void terminateGame(Move move, ObjectOutputStream osWin, ObjectOutputStream osLose, boolean isDraw) throws IOException {
 
-        private void close() throws IOException {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            if(isDraw) {
+                handler.draw(timestamp);
+
+                osLose.writeObject(new Move(move.x(), move.y(), true, false));
+                osWin.writeObject(new Move(move.x(), move.y(), true, false));
+            }
+            else {
+                handler.win(player, timestamp);
+
+                System.out.println("wrote");
+                osWin.writeObject(new Move(move.x(), move.y(), true, true));
+                osLose.writeObject(new Move(move.x(), move.y(), true, false));
+            }
             os1.close();
             os2.close();
             is1.close();
             is2.close();
-            Thread.currentThread().interrupt();
         }
     }
 }

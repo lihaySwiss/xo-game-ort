@@ -1,6 +1,8 @@
-package com.example.database;
+package com.example.database.Model;
 
-public class PlayerModel extends com.example.database.BaseEntity {
+import com.example.database.Model.BaseEntity;
+
+public class PlayerModel extends BaseEntity {
     private String playerName;
 
     public PlayerModel(String playerName) {

@@ -6,9 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.database.BaseEntity;
-import com.example.database.PlayerModel;
-
 public class PlayerList extends ArrayList<PlayerModel> {
 
     public PlayerList() {

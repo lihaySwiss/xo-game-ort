@@ -15,6 +15,7 @@ public class GameApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Game");
         stage.setScene(scene);
+        stage.setOnCloseRequest(e->stop());
         stage.show();
     }
 

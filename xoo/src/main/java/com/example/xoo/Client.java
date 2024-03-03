@@ -1,5 +1,6 @@
 package com.example.xoo;
 
+import com.example.database.viewModel.BaseDB;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -30,6 +31,8 @@ public class Client implements Runnable{
     private Condition moveSendCondition = moveLock.newCondition();
 
     private static final Logger logger = Logger.getLogger(Client.class.getName());
+
+    private BaseDB dataBase;
 
     public void processMove(Move playerMove) {
         System.out.println("client: processing move");

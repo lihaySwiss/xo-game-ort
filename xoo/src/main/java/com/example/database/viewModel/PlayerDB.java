@@ -1,12 +1,13 @@
-package com.example.database;
+package com.example.database.viewModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.example.database.BaseEntity;
-import com.example.database.PlayerModel;
+import com.example.database.Model.BaseEntity;
+import com.example.database.Model.ChangeEntity;
 import com.example.database.Model.PlayerList;
+import com.example.database.Model.PlayerModel;
 
 public class PlayerDB extends BaseDB {
 

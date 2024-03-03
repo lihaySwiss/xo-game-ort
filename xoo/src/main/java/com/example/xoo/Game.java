@@ -49,11 +49,24 @@ public class Game {
     }
 
     public boolean checkWin(int x, int y) {
-        return checkWinRow(x, gd.mark()) || checkWinCol(y, gd.mark());
+        return checkWinRow(x, gd.mark()) || checkWinCol(y, gd.mark()) || checkWinDiagonal(gd.mark());
     }
 
     public boolean checkOpponentWin(int x, int y) {
-        return checkWinRow(x, gd.opponentMark()) || checkWinCol(y, gd.opponentMark());
+        return checkWinRow(x, gd.opponentMark()) || checkWinCol(y, gd.opponentMark()) || checkWinDiagonal(gd.opponentMark());
+    }
+
+    public boolean checkDraw() {
+        int counter = 0, col = 0, row = 0;
+        for (col = 0; col < gd.size(); col++) {
+            for (row = 0; row < gd.size(); row++) {
+                if (grid[col][row] == gd.mark() || grid[col][row] == gd.opponentMark())
+                {
+                    counter++;
+                }
+            }
+        }
+        return counter == col * row;
     }
 
     private boolean checkWinRow(int row, byte mark) {
@@ -75,16 +88,23 @@ public class Game {
     }
 
     private boolean checkWinDiagonal(byte mark) {
+        boolean isWin = true;
         for (int curr = 0; curr < gd.size(); curr++) {
             if (grid[curr][curr] != mark)
-                return false;
+                isWin = false;
         }
+        if(isWin)
+        {
+            return isWin;
+        }
+
+        isWin = true;
 
         for (int curr = 0; curr < gd.size(); curr++) {
-            if (grid[curr][gd.size() - curr] != mark)
-                return false;
+            if (grid[curr][(gd.size() - 1) - curr] != mark)
+                isWin = false;
         }
 
-        return true;
+        return isWin;
     }
 }
